@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: job_board_app
+    image: job_board_app
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
