@@ -1,7 +1,7 @@
 {
   "name": "front",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,8 +11,10 @@
     "cz": "npx git-cz"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
