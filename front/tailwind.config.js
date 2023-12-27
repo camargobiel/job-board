@@ -1,7 +1,7 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-import withMt from '@material-tailwind/react/utils/withMT'
 
-export default withMt({
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,5 +10,5 @@ export default withMt({
     extend: {},
   },
   plugins: [],
-})
+}
 
