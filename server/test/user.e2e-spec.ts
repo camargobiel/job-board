@@ -17,7 +17,7 @@ describe('E2E User Suites', () => {
   });
 
   beforeEach(async () => {
-    deleteAllDatabaseRows();
+    await deleteAllDatabaseRows();
   });
 
   describe('Success calls', () => {
