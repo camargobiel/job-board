@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.2.2",
   "description": "",
   "author": "",
   "private": true,
@@ -25,7 +25,8 @@
     "migrate:dev": "pnpm prisma migrate dev",
     "migrate:deploy": "pnpm prisma migrate deploy",
     "prepare": "cd .. && husky install ./server/.husky",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "patch": "npm version patch && git add . && npx git-cz && git push --follow-tags"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
