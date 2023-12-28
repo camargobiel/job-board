@@ -1,10 +1,10 @@
-import { UserLogin } from "@/features/user-login"
+import { Login } from "@/features/Login"
 import { RouteObject } from "react-router-dom"
 
 export const ROUTES: RouteObject[] = [
   {
     path: "/login",
-    element: <UserLogin />,
+    element: <Login />,
     loader: () => {
       return {}
     }

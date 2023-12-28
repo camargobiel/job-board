@@ -1,7 +1,7 @@
 {
   "name": "front",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,9 +11,13 @@
     "cz": "npx git-cz"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.3",
+    "@material-tailwind/react": "^2.1.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1"
+    "react-hook-form": "^7.49.2",
+    "react-router-dom": "^6.21.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.45",
