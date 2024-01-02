@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from "./schema";
 import { Fields } from "./components/Fields";
+import { motion } from "framer-motion";
 
 export interface LoginFields {
   email: string;
@@ -27,8 +28,8 @@ export const Login = () => {
   }
 
   return (
-    <div className="flex gap-10 items-center justify-center h-screen">
-      <div></div>
+    <motion.div className="flex flex-col gap-10 items-center justify-center h-screen">
+      <h2>Login</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 w-60"
@@ -45,6 +46,6 @@ export const Login = () => {
           Entrar
         </Button>
       </form>
-    </div>
+    </motion.div>
   );
 }
