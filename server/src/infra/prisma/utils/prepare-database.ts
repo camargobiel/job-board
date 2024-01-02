@@ -1,11 +1,13 @@
 import { Prisma } from '@prisma/client';
 import prisma from '..';
+import { seedDatabase } from './seed-database';
 
-export const deleteAllDatabaseRows = async () => {
+export const prepareDatabase = async () => {
   if (process.env.NODE_ENV !== 'test') return;
 
   const modelNames = Prisma.dmmf.datamodel.models.map((model) => model.name);
   for (const modelName of modelNames) {
     await prisma[modelName].deleteMany({});
   }
+  return seedDatabase();
 };

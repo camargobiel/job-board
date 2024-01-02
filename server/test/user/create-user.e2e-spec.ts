@@ -1,10 +1,10 @@
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { deleteAllDatabaseRows } from '@/infra/prisma/utils/delete-all-database-rows';
+import { prepareDatabase } from '@/infra/prisma/utils';
 
-describe('E2E User Suites', () => {
+describe('E2E Create User Suites', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -16,12 +16,12 @@ describe('E2E User Suites', () => {
     await app.init();
   });
 
-  beforeEach(async () => {
-    await deleteAllDatabaseRows();
+  beforeAll(async () => {
+    await prepareDatabase();
   });
 
   describe('Success calls', () => {
-    it('should return 200', async () => {
+    it('should return 201 if send a valid user object', async () => {
       const response = await request(app.getHttpServer()).post('/user').send({
         name: 'Jackson Gibbs',
         email: 'uhiludti@fohewaw.ls',
@@ -33,7 +33,23 @@ describe('E2E User Suites', () => {
         id: expect.any(String),
         email: 'uhiludti@fohewaw.ls',
         name: 'Jackson Gibbs',
-        password: 'ZddKgauzKO',
+      });
+    });
+  });
+
+  describe('Error calls', () => {
+    it('should return 409 if send an already taken email', async () => {
+      const response = await request(app.getHttpServer()).post('/user').send({
+        name: 'Cora George',
+        email: 'uhiludti@fohewaw.ls',
+        password: 'cxnvlzXg',
+      });
+
+      expect(response.status).toBe(409);
+      expect(response.body).toEqual({
+        error: 'Conflict',
+        message: 'USER_ALREADY_EXISTS',
+        statusCode: 409,
       });
     });
   });
