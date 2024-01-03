@@ -5,24 +5,22 @@ import {
   LoginResponse,
 } from '@/domain/dtos';
 import { UserService } from '@/services';
-import { Controller, HttpCode, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/')
-  async create(@Req() request: Request): Promise<CreateUserResponse> {
-    const user: CreateUserParams = request.body;
+  @HttpCode(201)
+  async create(@Body() user: CreateUserParams): Promise<CreateUserResponse> {
     const createdUser = await this.userService.create(user);
     return createdUser;
   }
 
   @Post('/login')
   @HttpCode(200)
-  async login(@Req() request: Request): Promise<LoginResponse> {
-    const params: LoginParams = request.body;
+  async login(@Body() params: LoginParams): Promise<LoginResponse> {
     const result = await this.userService.login(params);
     return result;
   }

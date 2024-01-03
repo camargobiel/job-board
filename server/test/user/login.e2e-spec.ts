@@ -10,16 +10,14 @@ describe('E2E Login Suites', () => {
   let usersSeed: UserEntity[];
 
   beforeEach(async () => {
+    usersSeed = (await prepareDatabase()).users;
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
-
-  beforeAll(async () => {
-    usersSeed = (await prepareDatabase()).users;
   });
 
   describe('Success calls', () => {
