@@ -22,23 +22,23 @@ describe('UserService', () => {
         jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
         jest.spyOn(usersRepository, 'create').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
-          name: 'Ihi Wuoh',
+          name: 'Mittie Valdez',
           email: 'ihi@wuoh.zw',
           password: '123456',
         });
         const result = await service.create({
-          name: 'Ihi Wuoh',
+          name: 'Mittie Valdez',
           password: '123456',
           email: 'ihi@wuoh.zw',
         });
         expect(usersRepository.create).toHaveBeenCalledWith({
           email: 'ihi@wuoh.zw',
-          name: 'Ihi Wuoh',
+          name: 'Mittie Valdez',
           password: '123456',
         });
         expect(result).toEqual({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
-          name: 'Ihi Wuoh',
+          name: 'Mittie Valdez',
           email: 'ihi@wuoh.zw',
         });
       });
@@ -48,12 +48,12 @@ describe('UserService', () => {
       it('should throw conflict exception when send an already taken email', async () => {
         jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
-          name: 'Ihi Wuoh',
+          name: 'Elva Rodgers',
           email: 'ihi@wuoh.zw',
           password: '123456',
         });
         const promise = service.create({
-          name: 'Ihi Wuoh',
+          name: 'Elva Rodgers',
           password: '123456',
           email: 'ihi@wuoh.zw',
         });
@@ -63,49 +63,74 @@ describe('UserService', () => {
     });
   });
 
-  describe('Login', () => {
+  describe('Update User', () => {
     describe('Success', () => {
-      it('should login a user', async () => {
+      it('should update a user', async () => {
         jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
-          name: 'Ihi Wuoh',
-          email: 'meleszis@hodpod.be',
+          name: 'Stephen Welch',
+          email: 'bagep@gimuf.bb',
           password: '123456',
         });
-        const result = await service.login({
-          email: 'meleszis@hodpod.be',
-          password: '123456',
-        });
-        expect(result).toEqual({
-          token: expect.any(String),
+      });
+
+      describe('Errors', () => {
+        it('should throw bad request exception when send an invalid email', async () => {
+          jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
+          const promise = service.update({
+            userId: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
+            email: 'egu@jeobhi.me',
+          });
+          await expect(promise).rejects.toBeInstanceOf(BadRequestException);
+          await expect(promise).rejects.toThrow('USER_NOT_FOUND');
         });
       });
     });
 
-    describe('Errors', () => {
-      it('should throw bad request exception when send an invalid email', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
-        const promise = service.login({
-          email: 'nev@vadej.ng',
-          password: '123456',
+    describe('Login', () => {
+      describe('Success', () => {
+        it('should login a user', async () => {
+          jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+            id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
+            name: 'Ivan Sandoval',
+            email: 'meleszis@hodpod.be',
+            password: '123456',
+          });
+          const result = await service.login({
+            email: 'meleszis@hodpod.be',
+            password: '123456',
+          });
+          expect(result).toEqual({
+            token: expect.any(String),
+          });
         });
-        await expect(promise).rejects.toBeInstanceOf(BadRequestException);
-        await expect(promise).rejects.toThrow('INVALID_CREDENTIALS');
       });
 
-      it('should throw bad request exception when send an invalid password', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
-          id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
-          name: 'Ihi Wuoh',
-          email: 'tufewesa@fajloita.mk',
-          password: '123456',
+      describe('Errors', () => {
+        it('should throw bad request exception when send an invalid email', async () => {
+          jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
+          const promise = service.login({
+            email: 'nev@vadej.ng',
+            password: '123456',
+          });
+          await expect(promise).rejects.toBeInstanceOf(BadRequestException);
+          await expect(promise).rejects.toThrow('INVALID_CREDENTIALS');
         });
-        const promise = service.login({
-          email: 'tufewesa@fajloita.mk',
-          password: 'different password',
+
+        it('should throw bad request exception when send an invalid password', async () => {
+          jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+            id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
+            name: 'Beatrice Russell',
+            email: 'tufewesa@fajloita.mk',
+            password: '123456',
+          });
+          const promise = service.login({
+            email: 'tufewesa@fajloita.mk',
+            password: 'different password',
+          });
+          await expect(promise).rejects.toBeInstanceOf(BadRequestException);
+          await expect(promise).rejects.toThrow('INVALID_CREDENTIALS');
         });
-        await expect(promise).rejects.toBeInstanceOf(BadRequestException);
-        await expect(promise).rejects.toThrow('INVALID_CREDENTIALS');
       });
     });
   });

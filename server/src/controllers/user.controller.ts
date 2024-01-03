@@ -3,9 +3,11 @@ import {
   CreateUserResponse,
   LoginParams,
   LoginResponse,
+  UpdateUserParams,
+  UpdateUserResponse,
 } from '@/domain/dtos';
 import { UserService } from '@/services';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Patch, Post } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
@@ -22,6 +24,13 @@ export class UserController {
   @HttpCode(200)
   async login(@Body() params: LoginParams): Promise<LoginResponse> {
     const result = await this.userService.login(params);
+    return result;
+  }
+
+  @Patch('/')
+  @HttpCode(200)
+  async update(@Body() params: UpdateUserParams): Promise<UpdateUserResponse> {
+    const result = await this.userService.update(params);
     return result;
   }
 }

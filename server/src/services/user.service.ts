@@ -3,6 +3,8 @@ import {
   CreateUserResponse,
   LoginParams,
   LoginResponse,
+  UpdateUserParams,
+  UpdateUserResponse,
 } from '@/domain/dtos';
 import { UsersRepository } from '@/infra/repositories/users.repository';
 import {
@@ -41,5 +43,16 @@ export class UserService {
       expiresIn: '1d',
     });
     return { token } as LoginResponse;
+  }
+
+  async update(params: UpdateUserParams): Promise<UpdateUserResponse> {
+    const user = await this.usersRepository.findByEmail({
+      email: params.email,
+    });
+    if (!user) {
+      throw new BadRequestException('USER_NOT_FOUND');
+    }
+    const updatedUser = await this.usersRepository.update(params);
+    return updatedUser;
   }
 }

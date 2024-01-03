@@ -2,6 +2,7 @@ import {
   CreateUserParams,
   FindUserByEmailParams,
   FindUserByEmailResponse,
+  UpdateUserParams,
 } from '@/domain/dtos';
 import { UserEntity } from '@/domain/entities/user';
 import { Injectable } from '@nestjs/common';
@@ -13,6 +14,15 @@ export class UsersRepository {
 
   async create(params: CreateUserParams): Promise<UserEntity> {
     return prisma.user.create({
+      data: params,
+    });
+  }
+
+  async update(params: UpdateUserParams): Promise<UserEntity> {
+    return prisma.user.update({
+      where: {
+        id: params.userId,
+      },
       data: params,
     });
   }
