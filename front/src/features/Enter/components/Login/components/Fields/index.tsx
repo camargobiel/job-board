@@ -3,7 +3,7 @@ import { InputWrapper } from "@/components/molecules/Input"
 import { Input } from "@material-tailwind/react"
 import React from "react"
 import { Control, Controller, FieldErrors } from "react-hook-form"
-import { LoginFields } from "../.."
+import { LoginFields } from "../LoginForm"
 
 interface Props {
   errors: FieldErrors<LoginFields>
