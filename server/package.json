@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "description": "",
   "author": "",
   "private": true,
@@ -21,14 +21,15 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:all": "jest --config ./test/jest-e2e.json && jest",
     "test:e2e:watch": "jest --config ./test/jest-e2e.json --watch",
     "migrate:dev": "pnpm prisma migrate dev",
     "migrate:deploy": "pnpm prisma migrate deploy",
     "prepare": "cd .. && husky install ./server/.husky",
     "release": "semantic-release",
-    "patch": "npm version patch && git add . && npx git-cz && git push --follow-tags",
-    "minor": "npm version minor && git add . && npx git-cz && git push --follow-tags",
-    "major": "npm version major && git add . && npx git-cz && git push --follow-tags"
+    "patch": "git add . && npx git-cz && npm version patch && git add . && git commit --amend --no-verify --no-edit && git push --follow-tags -f",
+    "minor": "git add . && npx git-cz && npm version minor && git add . && git commit --amend --no-verify --no-edit && git push --follow-tags -f",
+    "major": "git add . && npx git-cz && npm version major && git add . && git commit --amend --no-verify --no-edit && git push --follow-tags -f"
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
