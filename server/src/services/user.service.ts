@@ -32,10 +32,10 @@ export class UserService {
       email: params.email,
     });
     if (!user) {
-      throw new BadRequestException('USER_NOT_FOUND');
+      throw new BadRequestException('INVALID_CREDENTIALS');
     }
     if (user.password !== params.password) {
-      throw new BadRequestException('USER_NOT_FOUND');
+      throw new BadRequestException('INVALID_CREDENTIALS');
     }
     const token = sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: '1d',
