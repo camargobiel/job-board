@@ -4,8 +4,17 @@ import {
   UpdateUserParams,
   UpdateUserResponse,
 } from '@/domain/dtos';
+import { AuthGuard } from '@/guards/auth.guard';
 import { UserService } from '@/services';
-import { Body, Controller, HttpCode, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
@@ -18,10 +27,13 @@ export class UserController {
     return createdUser;
   }
 
+  @UseGuards(AuthGuard)
   @Patch('/')
   @HttpCode(200)
-  async update(@Body() params: UpdateUserParams): Promise<UpdateUserResponse> {
-    const result = await this.userService.update(params);
+  async update(@Request() request): Promise<UpdateUserResponse> {
+    const params: UpdateUserParams = request.body;
+    const { id } = request.user;
+    const result = await this.userService.update({ ...params, userId: id });
     return result;
   }
 }

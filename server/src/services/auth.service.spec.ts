@@ -19,7 +19,7 @@ describe('AuthService', () => {
   describe('Login', () => {
     describe('Success', () => {
       it('should login a user', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
           name: 'Ivan Sandoval',
           email: 'meleszis@hodpod.be',
@@ -42,7 +42,7 @@ describe('AuthService', () => {
 
     describe('Errors', () => {
       it('should throw bad request exception when send an invalid email', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue(null);
         const promise = service.login({
           email: 'nev@vadej.ng',
           password: '123456',
@@ -52,7 +52,7 @@ describe('AuthService', () => {
       });
 
       it('should throw bad request exception when send an invalid password', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
           name: 'Beatrice Russell',
           email: 'tufewesa@fajloita.mk',

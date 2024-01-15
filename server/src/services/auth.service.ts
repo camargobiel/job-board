@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async login(params: LoginParams): Promise<LoginResponse> {
-    const user = await this.usersRepository.findByEmail({
+    const user = await this.usersRepository.findByUniques({
       email: params.email,
     });
     if (!user) {

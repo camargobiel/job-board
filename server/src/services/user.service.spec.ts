@@ -19,7 +19,7 @@ describe('UserService', () => {
   describe('Create User', () => {
     describe('Success', () => {
       it('should create a user', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue(null);
         jest.spyOn(usersRepository, 'create').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
           name: 'Mittie Valdez',
@@ -46,7 +46,7 @@ describe('UserService', () => {
 
     describe('Errors', () => {
       it('should throw conflict exception when send an already taken email', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
           name: 'Elva Rodgers',
           email: 'ihi@wuoh.zw',
@@ -66,7 +66,7 @@ describe('UserService', () => {
   describe('Update User', () => {
     describe('Success', () => {
       it('should update a user', async () => {
-        jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue({
+        jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue({
           id: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
           name: 'Stephen Welch',
           email: 'bagep@gimuf.bb',
@@ -76,7 +76,7 @@ describe('UserService', () => {
 
       describe('Errors', () => {
         it('should throw bad request exception when send an invalid email', async () => {
-          jest.spyOn(usersRepository, 'findByEmail').mockResolvedValue(null);
+          jest.spyOn(usersRepository, 'findByUniques').mockResolvedValue(null);
           const promise = service.update({
             userId: 'cdc98721-3d82-4994-9658-4fdb1ef0eb37',
             email: 'egu@jeobhi.me',

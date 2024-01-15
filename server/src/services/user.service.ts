@@ -16,7 +16,7 @@ export class UserService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async create(params: CreateUserParams): Promise<CreateUserResponse> {
-    const userConflict = await this.usersRepository.findByEmail({
+    const userConflict = await this.usersRepository.findByUniques({
       email: params.email,
     });
     if (userConflict) throw new ConflictException('USER_ALREADY_EXISTS');
@@ -27,8 +27,8 @@ export class UserService {
   }
 
   async update(params: UpdateUserParams): Promise<UpdateUserResponse> {
-    const user = await this.usersRepository.findByEmail({
-      email: params.email,
+    const user = await this.usersRepository.findByUniques({
+      id: params.userId,
     });
     if (!user) {
       throw new BadRequestException('USER_NOT_FOUND');

@@ -22,31 +22,33 @@ describe('E2E Login Suites', () => {
 
   describe('Success calls', () => {
     it('should return 200 if send a valid user and password', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/user/login')
-        .send({
-          email: usersSeed[0].email,
-          password: usersSeed[0].password,
-        });
+      const userSeed = usersSeed[0];
+      const response = await request(app.getHttpServer()).post('/auth').send({
+        email: userSeed.email,
+        password: userSeed.password,
+      });
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
         token: expect.any(String),
+        user: {
+          id: expect.any(String),
+          email: userSeed.email,
+          name: userSeed.name,
+        },
       });
     });
 
     describe('Error calls', () => {
       it('should return 400 if send invalid user email or an invalid password', async () => {
-        const response = await request(app.getHttpServer())
-          .post('/user/login')
-          .send({
-            email: 'lofocug@naw.uk',
-            password: 'QwBGqdCuZUG',
-          });
+        const response = await request(app.getHttpServer()).post('/auth').send({
+          email: 'lofocug@naw.uk',
+          password: 'QwBGqdCuZUG',
+        });
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
           error: 'Bad Request',
-          message: 'USER_NOT_FOUND',
+          message: 'INVALID_CREDENTIALS',
           statusCode: 400,
         });
       });

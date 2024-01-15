@@ -1,7 +1,7 @@
 import {
   CreateUserParams,
-  FindUserByEmailParams,
-  FindUserByEmailResponse,
+  FindUserByUniquesParams,
+  FindUserByUniquesResponse,
   UpdateUserParams,
 } from '@/domain/dtos';
 import { UserEntity } from '@/domain/entities/user';
@@ -11,6 +11,16 @@ import prisma from '@/infra/prisma';
 @Injectable()
 export class UsersRepository {
   constructor() {}
+
+  async findByUniques({
+    email,
+  }: FindUserByUniquesParams): Promise<FindUserByUniquesResponse> {
+    return prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
 
   async create(params: CreateUserParams): Promise<UserEntity> {
     return prisma.user.create({
@@ -24,16 +34,6 @@ export class UsersRepository {
         id: params.userId,
       },
       data: params,
-    });
-  }
-
-  async findByEmail({
-    email,
-  }: FindUserByEmailParams): Promise<FindUserByEmailResponse> {
-    return prisma.user.findUnique({
-      where: {
-        email,
-      },
     });
   }
 }
