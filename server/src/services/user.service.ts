@@ -34,6 +34,7 @@ export class UserService {
       throw new BadRequestException('USER_NOT_FOUND');
     }
     const updatedUser = await this.usersRepository.update(params);
+    Reflect.deleteProperty(updatedUser, 'password');
     return updatedUser;
   }
 }

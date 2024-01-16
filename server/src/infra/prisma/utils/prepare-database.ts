@@ -4,10 +4,10 @@ import { seedDatabase } from './seed-database';
 
 export const prepareDatabase = async () => {
   if (process.env.NODE_ENV !== 'test') return;
-
-  const modelNames = Prisma.dmmf.datamodel.models.map((model) => model.name);
-  for (const modelName of modelNames) {
-    await prisma[modelName].deleteMany({});
-  }
+  await Promise.all(
+    Prisma.dmmf.datamodel.models.map(async (model) => {
+      await prisma[model.name].deleteMany({});
+    }),
+  );
   return seedDatabase();
 };

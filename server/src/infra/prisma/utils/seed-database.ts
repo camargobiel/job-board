@@ -4,7 +4,6 @@ import { UserEntity } from '@/domain/entities/user';
 
 export async function seedDatabase() {
   const users: UserEntity[] = [];
-
   await Promise.all(
     Array.from({ length: 5 }, async () => {
       const user: UserEntity = {
@@ -17,6 +16,5 @@ export async function seedDatabase() {
       await prisma.user.create({ data: user });
     }),
   );
-
   return { users };
 }

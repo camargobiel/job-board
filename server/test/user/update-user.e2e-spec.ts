@@ -6,21 +6,19 @@ import { prepareDatabase } from '@/infra/prisma/utils';
 import { generateToken } from '../generate-token';
 import { UserEntity } from '@/domain/entities/user';
 
-describe.skip('E2E Create User Suites', () => {
+describe('E2E Create User Suites', () => {
   let app: INestApplication;
   let usersSeeds: UserEntity[];
 
   beforeEach(async () => {
+    usersSeeds = (await prepareDatabase()).users;
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
-
-  beforeAll(async () => {
-    usersSeeds = (await prepareDatabase()).users;
   });
 
   describe('Success calls', () => {
@@ -32,12 +30,11 @@ describe.skip('E2E Create User Suites', () => {
           name: 'New name',
         })
         .auth(generateToken(userSeed), { type: 'bearer' });
-
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
       expect(response.body).toEqual({
         id: expect.any(String),
-        email: 'uhiludti@fohewaw.ls',
-        name: 'Jackson Gibbs',
+        email: expect.any(String),
+        name: 'New name',
       });
     });
   });

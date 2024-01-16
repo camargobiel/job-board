@@ -14,9 +14,11 @@ export class UsersRepository {
 
   async findByUniques({
     email,
+    id,
   }: FindUserByUniquesParams): Promise<FindUserByUniquesResponse> {
     return prisma.user.findUnique({
       where: {
+        id,
         email,
       },
     });
@@ -28,12 +30,12 @@ export class UsersRepository {
     });
   }
 
-  async update(params: UpdateUserParams): Promise<UserEntity> {
+  async update({ userId, ...data }: UpdateUserParams): Promise<UserEntity> {
     return prisma.user.update({
       where: {
-        id: params.userId,
+        id: userId,
       },
-      data: params,
+      data,
     });
   }
 }
